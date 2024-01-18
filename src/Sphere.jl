@@ -35,7 +35,7 @@ function surfacepoints(𝛉, cos𝛟, ::Uniform)
     return x, y, z
 end
 function surfacepoints(𝐱₁, 𝐱₂, ::Marsaglia)
-    params = Iterators.filter(𝐱 -> 𝐱[1]^2 + 𝐱[2]^2 < 1, Iterators.product(𝐱₁, 𝐱₂))
+    params = Iterators.filter(𝐱 -> sum(abs2, 𝐱) < 1, Iterators.product(𝐱₁, 𝐱₂))
     x = [2 * x₁ * √(1 - x₁^2 - x₂^2) for (x₁, x₂) in params]
     y = [2 * x₂ * √(1 - x₁^2 - x₂^2) for (x₁, x₂) in params]
     z = [1 - 2 * (x₁^2 + x₂^2) for (x₁, x₂) in params]
