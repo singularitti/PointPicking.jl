@@ -1,3 +1,5 @@
+module Sphere
+
 export Angular,
     Uniform, Marsaglia, Cook, Gaussian, Fibonacci, spherical_coordinates, surfacepoints
 
@@ -59,4 +61,6 @@ function surfacepoints(n, ::Fibonacci)
     x = [√(1 - z[i]^2) * cospi(2i * GOLDEN_RATIO) for i in 1:n]
     y = [√(1 - z[i]^2) * sinpi(2i * GOLDEN_RATIO) for i in 1:n]
     return x, y, z
+end
+
 end
