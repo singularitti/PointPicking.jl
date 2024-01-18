@@ -1,5 +1,5 @@
 module PointPicking
 
-# Write your package code here.
+include("Sphere.jl")
 
 end
