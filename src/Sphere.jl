@@ -1,5 +1,5 @@
 export Angular,
-    Uniform, Marsaglia, Gaussian, Fibonacci, spherical_coordinates, surfacepoints
+    Uniform, Marsaglia, Cook, Gaussian, Fibonacci, spherical_coordinates, surfacepoints
 
 abstract type Distribution end
 struct Angular <: Distribution end
@@ -39,6 +39,13 @@ function surfacepoints(𝐱₁, 𝐱₂, ::Marsaglia)
     x = [2 * x₁ * √(1 - x₁^2 - x₂^2) for (x₁, x₂) in params]
     y = [2 * x₂ * √(1 - x₁^2 - x₂^2) for (x₁, x₂) in params]
     z = [1 - 2 * (x₁^2 + x₂^2) for (x₁, x₂) in params]
+    return x, y, z
+end
+function surfacepoints(𝐱, 𝐲, 𝐳, 𝐰, ::Cook)
+    params = Iterators.filter(𝐱 -> sum(abs2, 𝐱) < 1, Iterators.product(𝐱, 𝐲, 𝐳, 𝐰))
+    x = [2(x * z + y * w) / (x^2 + y^2 + z^2 + w^2) for (x, y, z, w) in params]
+    y = [2(y * z - w * x) / (x^2 + y^2 + z^2 + w^2) for (x, y, z, w) in params]
+    z = [2(w^2 + z^2 - x^2 - y^2) / (x^2 + y^2 + z^2 + w^2) for (x, y, z, w) in params]
     return x, y, z
 end
 function surfacepoints(𝐱, 𝐲, 𝐳, ::Gaussian)
