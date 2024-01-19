@@ -29,7 +29,7 @@ function sample(𝐫, 𝛉, ::Uniform)
 end
 function sample(disk::Disk, n::Integer, ::SunflowerSpiral)  # See https://stackoverflow.com/a/44164075 & https://archive.bridgesmathart.org/2010/bridges2010-483.pdf
     𝐧 = range(zero(disk.r); length=n)
-    𝐫, 𝛉 = sqrt.(𝐧), 2GOLDEN_RATIO .* 𝐧
+    𝐫, 𝛉 = disk.r .* sqrt.(𝐧 ./ n), 2GOLDEN_RATIO .* 𝐧  # Make radius right
     𝐱 = 𝐫 .* cospi.(𝛉)
     𝐲 = 𝐫 .* sinpi.(𝛉)
     return 𝐱, 𝐲
