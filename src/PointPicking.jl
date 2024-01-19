@@ -1,6 +1,6 @@
 module PointPicking
 
-include("Disk.jl")
+include("Disks.jl")
 include("Sphere.jl")
 
 end

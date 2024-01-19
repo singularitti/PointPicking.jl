@@ -1,4 +1,4 @@
-module Disk
+module Disks
 
 using RecipesBase: @recipe
 
