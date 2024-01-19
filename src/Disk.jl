@@ -2,7 +2,7 @@ module Disk
 
 using RecipesBase: @recipe
 
-export Disk, Angular, Uniform, SunflowerSpiral, sample
+export Disk, Polar, Uniform, SunflowerSpiral, sample
 
 struct Disk
     r::Float64
@@ -11,12 +11,12 @@ end
 const GOLDEN_RATIO = (√5 - 1) / 2  # Doesn't matter if its +1 or -1
 
 abstract type Distribution end
-struct Angular <: Distribution end
+struct Polar <: Distribution end
 struct Uniform <: Distribution end
 struct SunflowerSpiral <: Distribution end
 
 # See https://mathworld.wolfram.com/DiskPointPicking.html
-function sample(disk::Disk, n::Integer, ::Angular)
+function sample(disk::Disk, n::Integer, ::Polar)
     𝐫 = range(zero(disk.r); stop=disk.r, length=n)
     𝛉 = range(0; stop=2, length=n)  # 0 to 2π
     𝐱 = 𝐫 .* cospi.(𝛉)'  # Outer product
