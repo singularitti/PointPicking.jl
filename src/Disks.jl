@@ -1,8 +1,9 @@
 module Disks
 
+using Distributions: Uniform as UniformDist
 using RecipesBase: @recipe
 
-export Disk, Polar, Uniform, SunflowerSpiral, sample
+export Disk, Polar, Uniform, SunflowerSpiral, sample, random
 
 struct Disk
     r::Float64
@@ -36,6 +37,22 @@ function sample(disk::Disk, ::SunflowerSpiral, n::Integer)  # See https://stacko
     𝐫, 𝛉 = disk.r .* sqrt.(𝐧 ./ n), 2GOLDEN_RATIO .* 𝐧  # Make radius right
     𝐱 = 𝐫 .* cospi.(𝛉)
     𝐲 = 𝐫 .* sinpi.(𝛉)
+    return 𝐱, 𝐲
+end
+
+function random(disk::Disk, ::Polar, n::Integer)
+    𝐫 = rand(UniformDist(zero(disk.r), disk.r), n)
+    𝛉 = rand(UniformDist(0, 2π), n)
+    𝐱 = 𝐫 .* cospi.(𝛉)  # Outer product
+    𝐲 = 𝐫 .* sinpi.(𝛉)
+    return 𝐱, 𝐲
+end
+function random(disk::Disk, ::Uniform, n::Integer)
+    𝐫 = rand(UniformDist(zero(disk.r), disk.r), n)
+    𝛉 = rand(UniformDist(0, 2π), n)
+    sqrt𝐫 = sqrt.(𝐫)
+    𝐱 = sqrt𝐫 .* cospi.(𝛉)  # Outer product
+    𝐲 = sqrt𝐫 .* sinpi.(𝛉)
     return 𝐱, 𝐲
 end
 
