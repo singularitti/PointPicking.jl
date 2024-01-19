@@ -2,7 +2,11 @@ module Disk
 
 using RecipesBase: @recipe
 
-export Angular, Uniform, Sunflower, diskpoints
+export Disk, Angular, Uniform, SunflowerSpiral, sample
+
+struct Disk
+    r::Float64
+end
 
 const GOLDEN_RATIO = (√5 - 1) / 2  # Doesn't matter if its +1 or -1
 
