@@ -15,16 +15,20 @@ struct Angular <: Distribution end
 struct Uniform <: Distribution end
 struct SunflowerSpiral <: Distribution end
 
-function sample(::Disk, 𝐫, 𝛉, ::Angular)
-    𝛉 = filter(θ -> zero(θ) <= θ <= 2 * one(θ), 𝛉)
-    𝐱 = 𝐫 .* cospi.(𝛉)  # Outer product
-    𝐲 = 𝐫 .* sinpi.(𝛉)
+# See https://mathworld.wolfram.com/DiskPointPicking.html
+function sample(disk::Disk, n::Integer, ::Angular)
+    𝐫 = range(zero(disk.r); stop=disk.r, length=n)
+    𝛉 = range(0; stop=2, length=n)  # 0 to 2π
+    𝐱 = 𝐫 .* cospi.(𝛉)'  # Outer product
+    𝐲 = 𝐫 .* sinpi.(𝛉)'
     return 𝐱, 𝐲
 end
-function sample(𝐫, 𝛉, ::Uniform)
-    𝛉 = filter(θ -> zero(θ) <= θ <= 2 * one(θ), 𝛉)
-    𝐱 = sqrt.(𝐫) .* cospi.(𝛉)  # Outer product
-    𝐲 = sqrt.(𝐫) .* sinpi.(𝛉)
+function sample(disk::Disk, n::Integer, ::Uniform)
+    𝐫 = range(zero(disk.r); stop=disk.r, length=n)
+    𝛉 = range(0; stop=2, length=n)  # 0 to 2π
+    sqrt𝐫 = sqrt.(𝐫)
+    𝐱 = sqrt𝐫 .* cospi.(𝛉)'  # Outer product
+    𝐲 = sqrt𝐫 .* sinpi.(𝛉)'
     return 𝐱, 𝐲
 end
 function sample(disk::Disk, n::Integer, ::SunflowerSpiral)  # See https://stackoverflow.com/a/44164075 & https://archive.bridgesmathart.org/2010/bridges2010-483.pdf
