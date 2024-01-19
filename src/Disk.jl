@@ -15,13 +15,13 @@ struct Angular <: Distribution end
 struct Uniform <: Distribution end
 struct Sunflower <: Distribution end
 
-function diskpoints(𝐫, 𝛉, ::Angular)
+function sample(::Disk, 𝐫, 𝛉, ::Angular)
     𝛉 = filter(θ -> zero(θ) <= θ <= 2 * one(θ), 𝛉)
     𝐱 = 𝐫 .* cospi.(𝛉)  # Outer product
     𝐲 = 𝐫 .* sinpi.(𝛉)
     return 𝐱, 𝐲
 end
-function diskpoints(𝐫, 𝛉, ::Uniform)
+function sample(𝐫, 𝛉, ::Uniform)
     𝛉 = filter(θ -> zero(θ) <= θ <= 2 * one(θ), 𝛉)
     𝐱 = sqrt.(𝐫) .* cospi.(𝛉)  # Outer product
     𝐲 = sqrt.(𝐫) .* sinpi.(𝛉)
